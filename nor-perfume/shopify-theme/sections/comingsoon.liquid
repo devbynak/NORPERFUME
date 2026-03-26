@@ -1,0 +1,92 @@
+<section class="coming-soon-page">
+  <div class="coming-soon-inner">
+    <span class="coming-soon-eyebrow">{{ section.settings.eyebrow | default: 'Stay Tuned' }}</span>
+    <h1 class="coming-soon-title">{{ page.title }}</h1>
+    <p class="coming-soon-desc">{{ section.settings.description | default: 'Something extraordinary is in the works. We cannot wait to share it with you.' }}</p>
+    <a href="/" class="coming-soon-btn">Back to Home</a>
+  </div>
+</section>
+
+<style>
+  .coming-soon-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 2rem 80px;
+  }
+  .coming-soon-inner {
+    max-width: 560px;
+  }
+  .coming-soon-eyebrow {
+    display: block;
+    font-family: var(--sans);
+    font-size: .6rem;
+    font-weight: 500;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(245,240,235,.35);
+    margin-bottom: 20px;
+  }
+  .coming-soon-title {
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 300;
+    color: var(--c-cream, #f5f0eb);
+    margin: 0 0 20px;
+    line-height: 1.1;
+  }
+  .coming-soon-desc {
+    font-family: var(--sans);
+    font-size: .9rem;
+    color: rgba(245,240,235,.4);
+    line-height: 1.8;
+    font-weight: 300;
+    margin: 0 0 40px;
+  }
+  .coming-soon-btn {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: .65rem;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--c-bg, #0a0a0a);
+    background: var(--c-cream, #f5f0eb);
+    padding: 14px 36px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background .25s ease, transform .25s ease;
+  }
+  .coming-soon-btn:hover {
+    background: var(--c-silver, #d9d9d9);
+    transform: translateY(-2px);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Coming Soon",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Stay Tuned"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Something extraordinary is in the works. We cannot wait to share it with you."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Coming Soon"
+    }
+  ]
+}
+{% endschema %}

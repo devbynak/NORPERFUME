@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "coming-soon": {
+      "type": "comingsoon",
+      "settings": {}
+    }
+  },
+  "order": ["coming-soon"]
+}

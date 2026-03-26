@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "collection_template": {
+      "type": "collection-template",
+      "settings": {
+        "eyebrow": "The Signature Series",
+        "products_per_page": 12,
+        "grid_columns": "4",
+        "show_sort": true
+      }
+    }
+  },
+  "order": ["collection_template"]
+}

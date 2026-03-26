@@ -1,0 +1,164 @@
+{% assign menu = section.settings.menu %}
+{% assign logo_text = section.settings.logo_text | default: shop.name %}
+
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <a href="{{ routes.root_url }}" class="nav-logo-link" aria-label="{{ shop.name }}">
+        <img src="{{ 'Fullnamewhite.png' | asset_url }}" alt="{{ shop.name }}" class="nav-logo-img nav-logo-unblur">
+      </a>
+    </div>
+
+    <div class="nav-right">
+      {% if shop.customer_accounts_enabled %}
+        <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="nav-icon-btn account-btn" aria-label="{% if customer %}My Account{% else %}Sign in{% endif %}">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      {% endif %}
+
+      {% if section.settings.show_cart_count %}
+        <a href="{{ routes.cart_url }}" class="nav-icon-btn cart-btn" id="cart-btn" aria-label="Cart">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="cart-count" id="cart-count">{{ cart.item_count }}</span>
+        </a>
+      {% else %}
+        <a href="{{ routes.cart_url }}" class="nav-icon-btn cart-btn" id="cart-btn" aria-label="Cart">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+        </a>
+      {% endif %}
+
+      <button class="nav-menu-label" id="menu-open-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        Menu
+        <span class="nav-menu-lines" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true" role="dialog" aria-label="Navigation menu">
+  <button class="mobile-menu__close" id="menu-close-btn" aria-label="Close menu">
+    Close
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+
+  <nav class="mobile-menu__nav" aria-label="Mobile navigation">
+    {% if menu.links.size > 0 %}
+      {% for link in menu.links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {% endfor %}
+    {% else %}
+      <a href="/">Home</a>
+      <a href="/collections/all">Collections</a>
+      <a href="/pages/about">Our Craft</a>
+      <a href="/pages/contact">Support</a>
+    {% endif %}
+  </nav>
+
+  <div class="mobile-menu__footer">
+    <a href="https://instagram.com/norperfume" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://wa.me/919445934433" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</div>
+
+<!-- Styles handled by main style.css -->
+
+<script>
+  (function () {
+    const openBtn = document.getElementById('menu-open-btn');
+    const closeBtn = document.getElementById('menu-close-btn');
+    const menu = document.getElementById('mobile-menu');
+    const navbar = document.getElementById('navbar');
+
+    function openMenu() {
+      menu.classList.add('is-open');
+      menu.setAttribute('aria-hidden', 'false');
+      openBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      menu.classList.remove('is-open');
+      menu.setAttribute('aria-hidden', 'true');
+      openBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    if (openBtn) openBtn.addEventListener('click', openMenu);
+    if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+
+    // Close menu when clicking a nav link
+    menu.querySelectorAll('.mobile-menu__nav a').forEach(function(link) {
+      link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menu.classList.contains('is-open')) {
+        closeMenu();
+      }
+    });
+
+    // Navbar scroll behaviour
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 40) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    }, { passive: true });
+
+    // Hide zero cart count badge
+    const cartCount = document.getElementById('cart-count');
+    if (cartCount && cartCount.textContent.trim() === '0') {
+      cartCount.style.display = 'none';
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "header",
+  "class": "site-header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Navigation menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text override",
+      "info": "Leave blank to use shop name"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart_count",
+      "label": "Show cart item count badge",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header"
+    }
+  ]
+}
+{% endschema %}

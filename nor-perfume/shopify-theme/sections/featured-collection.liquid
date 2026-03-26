@@ -1,0 +1,189 @@
+{%- liquid
+  assign collection = collections[section.settings.collection]
+  if collection == blank
+    assign collection = collections.all
+  endif
+-%}
+
+<section
+  id="section-{{ section.id }}"
+  class="panel panel-collections"
+  data-section-id="{{ section.id }}"
+  data-section-type="featured-collection"
+>
+  <div class="container">
+
+    <header class="sec-header fade-up">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="sec-title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+    </header>
+
+    <div class="product-grid">
+      {%- if collection.products.size > 0 -%}
+        {% for product in collection.products limit: section.settings.products_to_show %}
+          <article class="product-card fade-up" data-delay="{{ forloop.index0 | times: 100 }}">
+            <div class="prod-img-wrap">
+              <div
+                class="prod-img-inner"
+                style="background-image: url('{{ product.featured_image | image_url: width: 600 }}')"
+                role="img"
+                aria-label="{{ product.featured_image.alt | default: product.title | escape }}"
+              ></div>
+              {% if product.tags contains 'bestseller' %}
+                <span class="prod-badge">Bestseller</span>
+              {% elsif product.tags contains 'new' %}
+                <span class="prod-badge prod-badge-new">New</span>
+              {% endif %}
+              {%- unless product.available -%}
+                <span class="prod-badge prod-badge-sold-out">Sold Out</span>
+              {%- endunless -%}
+              <div class="prod-overlay">
+                <button
+                  class="btn-quick btn-add-cart"
+                  data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                  data-product-title="{{ product.title | escape }}"
+                  {% unless product.available %}disabled aria-disabled="true"{% endunless %}
+                  aria-label="Quick add {{ product.title | escape }} to cart"
+                >
+                  {%- if product.available -%}Quick Add{%- else -%}Sold Out{%- endif -%}
+                </button>
+              </div>
+            </div>
+            <div class="prod-info">
+              <h3 class="prod-name">
+                <a href="{{ product.url }}">{{ product.title }}</a>
+              </h3>
+              <p class="prod-notes">
+                {{ product.metafields.custom.notes | default: product.type }}
+              </p>
+              <div class="prod-footer">
+                <div class="prod-pricing">
+                  {%- if product.compare_at_price > product.price -%}
+                    <span class="prod-price prod-price--sale">{{ product.price | money }}</span>
+                    <span class="prod-price--compare">{{ product.compare_at_price | money }}</span>
+                    {%- assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+                    <span class="prod-offer-tag">{{ discount }}% OFF</span>
+                  {%- else -%}
+                    <span class="prod-price">{{ product.price | money }}</span>
+                  {%- endif -%}
+                </div>
+                <button
+                  class="btn-circle-add btn-add-cart"
+                  data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                  {% unless product.available %}disabled aria-disabled="true"{% endunless %}
+                  aria-label="Add {{ product.title | escape }} to cart"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+                    <path d="M12 5v14M5 12h14"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      {%- else -%}
+        {%- comment -%} Placeholder cards shown in the theme editor when collection is empty {%- endcomment -%}
+        {%- for i in (1..section.settings.products_to_show) -%}
+          <article class="product-card product-card--placeholder fade-up" data-delay="{{ forloop.index0 | times: 100 }}">
+            <div class="prod-img-wrap">
+              <div class="prod-img-inner prod-img-inner--placeholder">
+                {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </div>
+            <div class="prod-info">
+              <h3 class="prod-name">Sample Fragrance {{ forloop.index }}</h3>
+              <p class="prod-notes">Woody · Amber · Oud</p>
+              <div class="prod-footer">
+                <span class="prod-price">{{ 1999 | money }}</span>
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.view_all_text != blank and section.settings.view_all_link != blank -%}
+      <div class="sec-cta fade-up">
+        <a href="{{ section.settings.view_all_link }}" class="cta-ghost">
+          {{ section.settings.view_all_text }}
+        </a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "class": "section-featured-collection",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "The Signature Series"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "A Symphony of Scents"
+    },
+    {
+      "type": "header",
+      "content": "Collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "View all link"
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "Button text",
+      "default": "View All Collections"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Featured Collection",
+      "settings": {
+        "eyebrow": "The Signature Series",
+        "title": "A Symphony of Scents",
+        "products_to_show": 4,
+        "view_all_text": "View All Collections"
+      }
+    }
+  ]
+}
+{% endschema %}

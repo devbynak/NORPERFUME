@@ -1,0 +1,85 @@
+<div
+  id="section-{{ section.id }}"
+  class="marquee-strip"
+  data-section-id="{{ section.id }}"
+  data-section-type="marquee-strip"
+  aria-hidden="true"
+>
+  {%- comment -%}
+    Duplicate the track to create a seamless infinite loop.
+    The CSS animation translates -50% so we need two full copies.
+  {%- endcomment -%}
+  {%- liquid
+    assign items = section.blocks
+    assign has_blocks = false
+    if items.size > 0
+      assign has_blocks = true
+    endif
+  -%}
+
+  <div class="marquee-track">
+    {%- comment -%} First copy {%- endcomment -%}
+    {%- if has_blocks -%}
+      {%- for block in items -%}
+        <span class="marquee-item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+        <span class="dot" aria-hidden="true">✦</span>
+      {%- endfor -%}
+    {%- else -%}
+      {%- assign defaults = "Luxury Car Fragrance,Crafted in India,Zero-Liquid Technology,45 Days Lasting,100% Natural Oils,Worn Worldwide" | split: "," -%}
+      {%- for item in defaults -%}
+        <span class="marquee-item">{{ item }}</span>
+        <span class="dot" aria-hidden="true">✦</span>
+      {%- endfor -%}
+    {%- endif -%}
+
+    {%- comment -%} Second copy — required for seamless loop {%- endcomment -%}
+    {%- if has_blocks -%}
+      {%- for block in items -%}
+        <span class="marquee-item" aria-hidden="true">{{ block.settings.text }}</span>
+        <span class="dot" aria-hidden="true">✦</span>
+      {%- endfor -%}
+    {%- else -%}
+      {%- for item in defaults -%}
+        <span class="marquee-item" aria-hidden="true">{{ item }}</span>
+        <span class="dot" aria-hidden="true">✦</span>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Marquee Strip",
+  "class": "section-marquee-strip",
+  "tag": "div",
+  "max_blocks": 8,
+  "settings": [],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Marquee item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Item text",
+          "default": "Luxury Car Fragrance"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee Strip",
+      "blocks": [
+        { "type": "item", "settings": { "text": "Luxury Car Fragrance" } },
+        { "type": "item", "settings": { "text": "Crafted in India" } },
+        { "type": "item", "settings": { "text": "Zero-Liquid Technology" } },
+        { "type": "item", "settings": { "text": "45 Days Lasting" } },
+        { "type": "item", "settings": { "text": "100% Natural Oils" } },
+        { "type": "item", "settings": { "text": "Worn Worldwide" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

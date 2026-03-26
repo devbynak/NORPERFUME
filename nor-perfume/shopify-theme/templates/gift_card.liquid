@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ shop.name }} — Gift Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+  {{ content_for_header }}
+  <style>
+    :root {
+      --c-bg: #0a0a0a;
+      --c-cream: #f5f0eb;
+      --c-accent: #c9a96e;
+      --font-heading: 'Cormorant Garamond', serif;
+      --font-body: 'Jost', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--c-bg);
+      color: var(--c-cream);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gift-card {
+      text-align: center;
+      max-width: 480px;
+      padding: 3rem 2rem;
+    }
+    .gift-card__logo {
+      font-family: var(--font-heading);
+      font-size: 2.4rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--c-cream);
+      margin-bottom: 2rem;
+    }
+    .gift-card__image {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+    }
+    .gift-card__amount {
+      font-family: var(--font-heading);
+      font-size: 3rem;
+      font-weight: 400;
+      color: var(--c-accent);
+      margin-bottom: 1rem;
+    }
+    .gift-card__code {
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      letter-spacing: 0.15em;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+    .gift-card__balance {
+      font-size: 0.9rem;
+      color: rgba(245,240,235,0.5);
+      margin-bottom: 2rem;
+    }
+    .gift-card__btn {
+      display: inline-block;
+      padding: 0.9rem 2.4rem;
+      background: var(--c-accent);
+      color: var(--c-bg);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <main class="gift-card">
+    <div class="gift-card__logo">{{ shop.name }}</div>
+
+    {% if gift_card.image %}
+      <img class="gift-card__image" src="{{ gift_card.image | img_url: '600x' }}" alt="Gift Card">
+    {% endif %}
+
+    <div class="gift-card__amount">{{ gift_card.initial_value | money }}</div>
+
+    <div class="gift-card__code" id="gift-card-code">{{ gift_card.code | format_code }}</div>
+
+    {% if gift_card.balance != gift_card.initial_value %}
+      <p class="gift-card__balance">Remaining balance: {{ gift_card.balance | money }}</p>
+    {% endif %}
+
+    {% if gift_card.expired %}
+      <p class="gift-card__balance" style="color: #e57373;">This gift card has expired.</p>
+    {% endif %}
+
+    <a href="{{ shop.url }}" class="gift-card__btn">Shop Now</a>
+  </main>
+</body>
+</html>

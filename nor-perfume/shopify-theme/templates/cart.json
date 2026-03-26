@@ -1,0 +1,24 @@
+{
+  "sections": {
+    "cart_template": {
+      "type": "cart-template",
+      "settings": {
+        "eyebrow": "Review Your Order",
+        "heading": "Your Cart",
+        "summary_heading": "Order Summary",
+        "shipping_note": "Calculated at checkout",
+        "tax_note": "Taxes and shipping calculated at checkout.",
+        "checkout_label": "Proceed to Checkout",
+        "show_dynamic_checkout": true,
+        "show_cart_note": true,
+        "cart_note_placeholder": "Special instructions for your order\u2026",
+        "show_trust_badges": true,
+        "empty_title": "Your cart is empty",
+        "empty_message": "Discover our signature collection of luxury car fragrances.",
+        "empty_cta_label": "Shop the Collection",
+        "empty_cta_url": "/collections/all"
+      }
+    }
+  },
+  "order": ["cart_template"]
+}

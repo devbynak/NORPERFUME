@@ -1,0 +1,404 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "NOR Perfume",
+    "theme_author": "NOR",
+    "theme_version": "1.0.0",
+    "theme_documentation_url": "https://norperfume.com",
+    "theme_support_url": "https://norperfume.com"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Background & Text"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Page background",
+        "default": "#0a0a0a",
+        "info": "Main site background color"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Body text",
+        "default": "#e8dcc8",
+        "info": "Primary text color (cream/ivory)"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent / Gold",
+        "default": "#c9a96e",
+        "info": "Gold accent used for borders, highlights, and decorative elements"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "Card / surface background",
+        "default": "#141414",
+        "info": "Background for cards, overlays, and elevated surfaces"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Border color",
+        "default": "#2a2a2a",
+        "info": "Subtle border color for dividers and containers"
+      },
+      {
+        "type": "header",
+        "content": "Buttons"
+      },
+      {
+        "type": "color",
+        "id": "color_button_bg",
+        "label": "Primary button background",
+        "default": "#c9a96e"
+      },
+      {
+        "type": "color",
+        "id": "color_button_text",
+        "label": "Primary button text",
+        "default": "#0a0a0a"
+      },
+      {
+        "type": "color",
+        "id": "color_button_border",
+        "label": "Primary button border",
+        "default": "#c9a96e"
+      },
+      {
+        "type": "color",
+        "id": "color_button_secondary_bg",
+        "label": "Secondary button background",
+        "default": "#00000000"
+      },
+      {
+        "type": "color",
+        "id": "color_button_secondary_text",
+        "label": "Secondary button text",
+        "default": "#c9a96e"
+      },
+      {
+        "type": "color",
+        "id": "color_button_secondary_border",
+        "label": "Secondary button border",
+        "default": "#c9a96e"
+      },
+      {
+        "type": "header",
+        "content": "Header"
+      },
+      {
+        "type": "color",
+        "id": "color_header_bg",
+        "label": "Header background",
+        "default": "#0a0a0a"
+      },
+      {
+        "type": "color",
+        "id": "color_header_text",
+        "label": "Header text / nav links",
+        "default": "#e8dcc8"
+      },
+      {
+        "type": "header",
+        "content": "Footer"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_bg",
+        "label": "Footer background",
+        "default": "#050505"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_text",
+        "label": "Footer text",
+        "default": "#a09070"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Heading Font"
+      },
+      {
+        "type": "select",
+        "id": "font_heading",
+        "label": "Heading font",
+        "options": [
+          { "value": "'Cormorant Garamond', serif", "label": "Cormorant Garamond" },
+          { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+          { "value": "'Lora', serif", "label": "Lora" },
+          { "value": "Georgia, serif", "label": "Georgia" }
+        ],
+        "default": "'Cormorant Garamond', serif"
+      },
+      {
+        "type": "range",
+        "id": "font_heading_scale",
+        "label": "Heading font scale",
+        "min": 75,
+        "max": 150,
+        "step": 5,
+        "unit": "%",
+        "default": 100,
+        "info": "Scales all heading sizes proportionally"
+      },
+      {
+        "type": "header",
+        "content": "Body Font"
+      },
+      {
+        "type": "select",
+        "id": "font_body",
+        "label": "Body font",
+        "options": [
+          { "value": "'Jost', sans-serif", "label": "Jost" },
+          { "value": "'Inter', sans-serif", "label": "Inter" },
+          { "value": "'Work Sans', sans-serif", "label": "Work Sans" },
+          { "value": "'Helvetica Neue', sans-serif", "label": "Helvetica Neue" }
+        ],
+        "default": "'Jost', sans-serif"
+      },
+      {
+        "type": "range",
+        "id": "font_body_scale",
+        "label": "Body font scale",
+        "min": 75,
+        "max": 125,
+        "step": 5,
+        "unit": "%",
+        "default": 100
+      },
+      {
+        "type": "select",
+        "id": "font_body_weight",
+        "label": "Body font weight",
+        "options": [
+          { "value": "300", "label": "Light (300)" },
+          { "value": "400", "label": "Regular (400)" },
+          { "value": "500", "label": "Medium (500)" }
+        ],
+        "default": "300"
+      }
+    ]
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image",
+        "info": "Recommended: SVG or PNG with transparent background"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "Logo width",
+        "min": 50,
+        "max": 300,
+        "step": 10,
+        "unit": "px",
+        "default": 80,
+        "info": "Maximum logo width on desktop"
+      },
+      {
+        "type": "text",
+        "id": "logo_alt",
+        "label": "Logo alt text",
+        "default": "NOR Perfume"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "PNG, 32×32px recommended"
+      },
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "Default social sharing image",
+        "info": "Used for Open Graph when no product/page image is set. 1200×630px recommended."
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social Links"
+      },
+      {
+        "type": "url",
+        "id": "social_instagram_link",
+        "label": "Instagram URL",
+        "info": "e.g. https://www.instagram.com/norperfume"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook_link",
+        "label": "Facebook URL"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok_link",
+        "label": "TikTok URL"
+      },
+      {
+        "type": "url",
+        "id": "social_youtube_link",
+        "label": "YouTube URL"
+      },
+      {
+        "type": "url",
+        "id": "social_twitter_link",
+        "label": "X / Twitter URL"
+      },
+      {
+        "type": "url",
+        "id": "social_pinterest_link",
+        "label": "Pinterest URL"
+      },
+      {
+        "type": "header",
+        "content": "WhatsApp"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "WhatsApp number",
+        "placeholder": "+1 555 000 0000",
+        "info": "Include country code. Leaving this blank hides the floating WhatsApp button."
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_default_message",
+        "label": "WhatsApp pre-filled message",
+        "default": "Hello, I'm interested in NOR Perfume.",
+        "info": "Optional message that opens in WhatsApp chat"
+      }
+    ]
+  },
+  {
+    "name": "Newsletter",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "newsletter_enabled",
+        "label": "Show newsletter section",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "newsletter_heading",
+        "label": "Newsletter heading",
+        "default": "Join the Inner Circle"
+      },
+      {
+        "type": "textarea",
+        "id": "newsletter_subtext",
+        "label": "Newsletter subtext",
+        "default": "Be the first to discover new collections, exclusive offers, and the stories behind each scent."
+      },
+      {
+        "type": "text",
+        "id": "newsletter_button_label",
+        "label": "Subscribe button label",
+        "default": "Subscribe"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_success_message",
+        "label": "Success message",
+        "default": "Thank you for subscribing."
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart type",
+        "options": [
+          { "value": "drawer", "label": "Slide-out drawer" },
+          { "value": "page", "label": "Cart page" },
+          { "value": "notification", "label": "Notification popup" }
+        ],
+        "default": "drawer",
+        "info": "How the cart is displayed when an item is added"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_notes_enabled",
+        "label": "Enable cart notes",
+        "default": false,
+        "info": "Allow customers to add a note to their order"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_terms_enabled",
+        "label": "Require terms agreement before checkout",
+        "default": false
+      },
+      {
+        "type": "page",
+        "id": "cart_terms_page",
+        "label": "Terms and conditions page",
+        "info": "Required if terms agreement is enabled"
+      }
+    ]
+  },
+  {
+    "name": "Search",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "predictive_search_enabled",
+        "label": "Enable predictive search",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "predictive_search_show_vendor",
+        "label": "Show vendor in predictive results",
+        "options": [
+          { "value": "true", "label": "Show" },
+          { "value": "false", "label": "Hide" }
+        ],
+        "default": "false"
+      }
+    ]
+  },
+  {
+    "name": "Animations",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "animations_enabled",
+        "label": "Enable scroll animations",
+        "default": true,
+        "info": "Fade and slide-in effects on scroll. Disable for accessibility."
+      },
+      {
+        "type": "checkbox",
+        "id": "custom_cursor_enabled",
+        "label": "Enable custom cursor",
+        "default": true,
+        "info": "Custom dot + ring cursor. Desktop only."
+      }
+    ]
+  }
+]

@@ -1,0 +1,411 @@
+<!-- ===================== ABOUT PAGE HERO HEADER ===================== -->
+<header class="page-header about-page-header">
+  <div class="container">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="eyebrow fade-up">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    <h1 class="sec-title fade-up" data-delay="100">
+      {{ section.settings.title | default: page.title }}
+    </h1>
+    {%- if section.settings.subtitle != blank -%}
+      <p class="about-subtitle fade-up" data-delay="200">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+  </div>
+</header>
+
+<!-- ===================== STORY BLOCK ===================== -->
+{%- if page.content != blank -%}
+  <section class="about-content">
+    <div class="container">
+      <div class="story-block fade-up">
+        {{ page.content }}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+<!-- ===================== EDITORIAL BLOCKS ===================== -->
+{%- if section.blocks.size > 0 -%}
+  {%- for block in section.blocks -%}
+
+    {%- case block.type -%}
+
+      {%- when 'editorial' -%}
+        <!-- Editorial two-column layout (image + text + feature list) -->
+        <section class="about-editorial-section" {{ block.shopify_attributes }}>
+          <div class="container">
+            <div
+              class="panel-editorial"
+              style="padding: 0; min-height: auto;"
+            >
+              <div class="editorial-layout{% if block.settings.image_position == 'right' %} editorial-layout-reversed{% endif %}">
+
+                <!-- Visual side -->
+                <div class="editorial-vis fade-up">
+                  <div class="ed-img-frame">
+                    {%- if block.settings.image != blank -%}
+                      <img
+                        class="ed-img-inner ed-img-tag"
+                        src="{{ block.settings.image | image_url: width: 700 }}"
+                        alt="{{ block.settings.image.alt | default: block.settings.heading | escape }}"
+                        width="700"
+                        loading="lazy"
+                      >
+                    {%- else -%}
+                      <div class="ed-img-inner"></div>
+                    {%- endif -%}
+                  </div>
+
+                  {%- if block.settings.badge_label != blank -%}
+                    <div class="ed-badge fade-up" data-delay="150">
+                      <span class="ed-badge-label">{{ block.settings.badge_label }}</span>
+                      {%- if block.settings.badge_subtext != blank -%}
+                        <p>{{ block.settings.badge_subtext }}</p>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+
+                <!-- Text side -->
+                <div class="editorial-text fade-up" data-delay="100">
+                  {%- if block.settings.eyebrow != blank -%}
+                    <span class="eyebrow">{{ block.settings.eyebrow }}</span>
+                  {%- endif -%}
+
+                  {%- if block.settings.heading != blank -%}
+                    <h2 class="sec-title">{{ block.settings.heading }}</h2>
+                  {%- endif -%}
+
+                  {%- if block.settings.body != blank -%}
+                    <p class="body-copy">{{ block.settings.body }}</p>
+                  {%- endif -%}
+
+                  <!-- Feature list items -->
+                  {%- assign has_features = false -%}
+                  {%- for i in (1..4) -%}
+                    {%- assign feat_title_key = 'feature_' | append: i | append: '_title' -%}
+                    {%- assign feat_text_key  = 'feature_' | append: i | append: '_text' -%}
+                    {%- if block.settings[feat_title_key] != blank -%}
+                      {%- assign has_features = true -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+
+                  {%- if has_features -%}
+                    <ul class="feat-list">
+                      {%- for i in (1..4) -%}
+                        {%- assign feat_title_key = 'feature_' | append: i | append: '_title' -%}
+                        {%- assign feat_text_key  = 'feature_' | append: i | append: '_text' -%}
+                        {%- if block.settings[feat_title_key] != blank -%}
+                          <li>
+                            <div class="feat-dot" aria-hidden="true"></div>
+                            <div class="feat-body">
+                              <strong>{{ block.settings[feat_title_key] }}</strong>
+                              {%- if block.settings[feat_text_key] != blank -%}
+                                <span>{{ block.settings[feat_text_key] }}</span>
+                              {%- endif -%}
+                            </div>
+                          </li>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+
+                  {%- if block.settings.cta_label != blank and block.settings.cta_url != blank -%}
+                    <a href="{{ block.settings.cta_url }}" class="cta-primary about-cta">
+                      {{ block.settings.cta_label }}
+                    </a>
+                  {%- endif -%}
+                </div>
+
+              </div><!-- /editorial-layout -->
+            </div><!-- /panel-editorial -->
+          </div><!-- /container -->
+        </section>
+
+      {%- when 'text_block' -%}
+        <!-- Centered rich text block -->
+        <section class="about-text-section" {{ block.shopify_attributes }}>
+          <div class="container">
+            <div class="story-block about-text-block fade-up">
+              {%- if block.settings.eyebrow != blank -%}
+                <span class="eyebrow">{{ block.settings.eyebrow }}</span>
+              {%- endif -%}
+              {%- if block.settings.heading != blank -%}
+                <h2 class="sec-title">{{ block.settings.heading }}</h2>
+              {%- endif -%}
+              {%- if block.settings.body != blank -%}
+                <div class="rte">{{ block.settings.body }}</div>
+              {%- endif -%}
+            </div>
+          </div>
+        </section>
+
+      {%- when 'stats' -%}
+        <!-- Stats / numbers row -->
+        <section class="about-stats-section" {{ block.shopify_attributes }}>
+          <div class="container">
+            <div class="about-stats-grid fade-up">
+              {%- for i in (1..4) -%}
+                {%- assign stat_num_key   = 'stat_' | append: i | append: '_number' -%}
+                {%- assign stat_label_key = 'stat_' | append: i | append: '_label' -%}
+                {%- if block.settings[stat_num_key] != blank -%}
+                  <div class="about-stat">
+                    <span class="about-stat-number">{{ block.settings[stat_num_key] }}</span>
+                    {%- if block.settings[stat_label_key] != blank -%}
+                      <span class="about-stat-label">{{ block.settings[stat_label_key] }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        </section>
+
+    {%- endcase -%}
+
+  {%- endfor -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "About Page",
+  "tag": "div",
+  "class": "section-page-about",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Page Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Page title",
+      "info": "Leave blank to use the Shopify page title.",
+      "default": "The NOR Philosophy"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle / tagline",
+      "default": "Born from a desire to bridge fine perfumery and automotive luxury."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "editorial",
+      "name": "Editorial Block",
+      "settings": [
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image position",
+          "options": [
+            { "value": "left",  "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "badge_label",
+          "label": "Image badge label",
+          "default": "Ceramic Core Tech"
+        },
+        {
+          "type": "text",
+          "id": "badge_subtext",
+          "label": "Image badge subtext",
+          "default": "Zero-liquid, spill-proof innovation"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "default": "The Experience"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "More Than Just a Scent."
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body text",
+          "default": "We believe your car is an extension of your personal sanctuary. NOR diffusers are engineered with premium aerospace-grade aluminum and feature a minimalist design that seamlessly integrates into luxury interiors."
+        },
+        {
+          "type": "text",
+          "id": "feature_1_title",
+          "label": "Feature 1 — Title",
+          "default": "Long-lasting Release"
+        },
+        {
+          "type": "text",
+          "id": "feature_1_text",
+          "label": "Feature 1 — Text",
+          "default": "Up to 45 days of continuous fragrance"
+        },
+        {
+          "type": "text",
+          "id": "feature_2_title",
+          "label": "Feature 2 — Title",
+          "default": "Sustainably Sourced"
+        },
+        {
+          "type": "text",
+          "id": "feature_2_text",
+          "label": "Feature 2 — Text",
+          "default": "100% natural essential oils, ethically obtained"
+        },
+        {
+          "type": "text",
+          "id": "feature_3_title",
+          "label": "Feature 3 — Title",
+          "default": "Zero-Liquid Technology"
+        },
+        {
+          "type": "text",
+          "id": "feature_3_text",
+          "label": "Feature 3 — Text",
+          "default": "Spill-proof ceramic core, safe for all vehicles"
+        },
+        {
+          "type": "text",
+          "id": "feature_4_title",
+          "label": "Feature 4 — Title"
+        },
+        {
+          "type": "text",
+          "id": "feature_4_text",
+          "label": "Feature 4 — Text"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA button label"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA button URL"
+        }
+      ]
+    },
+    {
+      "type": "text_block",
+      "name": "Text Block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body text"
+        }
+      ]
+    },
+    {
+      "type": "stats",
+      "name": "Stats Row",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "stat_1_number",
+          "label": "Stat 1 — Number",
+          "default": "45"
+        },
+        {
+          "type": "text",
+          "id": "stat_1_label",
+          "label": "Stat 1 — Label",
+          "default": "Days of fragrance"
+        },
+        {
+          "type": "text",
+          "id": "stat_2_number",
+          "label": "Stat 2 — Number",
+          "default": "100%"
+        },
+        {
+          "type": "text",
+          "id": "stat_2_label",
+          "label": "Stat 2 — Label",
+          "default": "Natural oils"
+        },
+        {
+          "type": "text",
+          "id": "stat_3_number",
+          "label": "Stat 3 — Number",
+          "default": "8+"
+        },
+        {
+          "type": "text",
+          "id": "stat_3_label",
+          "label": "Stat 3 — Label",
+          "default": "Signature scents"
+        },
+        {
+          "type": "text",
+          "id": "stat_4_number",
+          "label": "Stat 4 — Number",
+          "default": "0"
+        },
+        {
+          "type": "text",
+          "id": "stat_4_label",
+          "label": "Stat 4 — Label",
+          "default": "Liquid, zero spills"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Page",
+      "blocks": [
+        {
+          "type": "editorial",
+          "settings": {
+            "image_position": "left",
+            "badge_label": "Ceramic Core Tech",
+            "badge_subtext": "Zero-liquid, spill-proof innovation",
+            "eyebrow": "The Experience",
+            "heading": "More Than Just a Scent.",
+            "feature_1_title": "Long-lasting Release",
+            "feature_1_text": "Up to 45 days of continuous fragrance",
+            "feature_2_title": "Sustainably Sourced",
+            "feature_2_text": "100% natural essential oils, ethically obtained",
+            "feature_3_title": "Zero-Liquid Technology",
+            "feature_3_text": "Spill-proof ceramic core, safe for all vehicles"
+          }
+        },
+        {
+          "type": "stats"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

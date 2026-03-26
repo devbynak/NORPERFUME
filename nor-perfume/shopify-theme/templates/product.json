@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "product_template": {
+      "type": "product-template",
+      "settings": {
+        "show_trust_badges": true,
+        "trust_1_title": "International Shipping",
+        "trust_1_text": "Worldwide shipping — customs & duties excluded",
+        "trust_2_title": "Customer Service",
+        "trust_2_text": "Get in touch via WhatsApp",
+        "trust_3_title": "Secure Payment",
+        "trust_3_text": "Your payment information is processed securely.",
+        "accordion_technology_text": "Engineered from aerospace-grade aluminum, the diffuser houses our proprietary porous ceramic core. This spill-proof design ensures a perfectly calibrated, continuous release of fragrance for up to 45 days, unaffected by cabin temperature fluctuations.",
+        "accordion_shipping_text": "Complimentary express shipping on all orders. Each product is crafted to rigorous standards; however, if you are not entirely satisfied, we offer a 14-day return window for unused items.",
+        "show_related_products": true,
+        "related_eyebrow": "You May Also Like",
+        "related_title": "Explore More",
+        "related_products_count": 4
+      }
+    }
+  },
+  "order": ["product_template"]
+}

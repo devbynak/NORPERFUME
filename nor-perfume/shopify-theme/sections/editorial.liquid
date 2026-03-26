@@ -1,0 +1,191 @@
+<section
+  id="section-{{ section.id }}"
+  class="panel panel-editorial"
+  data-section-id="{{ section.id }}"
+  data-section-type="editorial"
+>
+  <div class="container">
+    <div class="editorial-layout">
+
+      {%- comment -%} ── Left: visual ── {%- endcomment -%}
+      <div class="editorial-vis fade-up">
+        <div class="ed-img-frame">
+          {%- if section.settings.image != blank -%}
+            {%- assign ed_img_url = section.settings.image | image_url: width: 900 -%}
+          {%- else -%}
+            {%- assign ed_img_url = 'editorial_interior.png' | asset_url -%}
+          {%- endif -%}
+          <div
+            class="ed-img-inner"
+            style="background-image: url('{{ ed_img_url }}')"
+            role="img"
+            aria-label="NOR Perfume ceramic core technology"
+          ></div>
+
+          {%- if section.settings.badge_text != blank -%}
+            <div class="ed-badge" aria-hidden="true">
+              {{ section.settings.badge_text }}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} ── Right: text ── {%- endcomment -%}
+      <div class="editorial-text">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="eyebrow fade-up">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.title != blank -%}
+          <h2 class="sec-title fade-up">{{ section.settings.title }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.body != blank -%}
+          <div class="ed-body fade-up rte">{{ section.settings.body }}</div>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <ul class="feat-list" role="list">
+            {%- for block in section.blocks -%}
+              <li class="feat-list__item fade-up" {{ block.shopify_attributes }}>
+                <span class="feat-dot" aria-hidden="true"></span>
+                <div class="feat-body">
+                  {%- if block.settings.feature_title != blank -%}
+                    <strong class="feat-body__title">{{ block.settings.feature_title }}</strong>
+                  {%- endif -%}
+                  {%- if block.settings.feature_desc != blank -%}
+                    <span class="feat-body__desc">{{ block.settings.feature_desc }}</span>
+                  {%- endif -%}
+                </div>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.cta_text != blank -%}
+          <a href="{{ section.settings.cta_link | default: '/pages/about' }}" class="cta-primary fade-up">
+            {{ section.settings.cta_text }}
+          </a>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Editorial",
+  "class": "section-editorial",
+  "tag": "section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Image badge text",
+      "default": "Ceramic Core Tech"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Our Technology"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "More Than Just a Scent"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body copy",
+      "default": "<p>NOR fragrances are built on a patented ceramic-core diffusion system — no liquids, no leaks, no compromise. Every molecule of scent is released precisely over 45 days, filling your cabin with consistent, refined luxury from the first drive to the last.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Discover the Technology"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature_title",
+          "label": "Feature title",
+          "default": "Zero-Liquid Formula"
+        },
+        {
+          "type": "text",
+          "id": "feature_desc",
+          "label": "Feature description",
+          "default": "Solid-state fragrance that won't spill, evaporate, or degrade in summer heat."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial",
+      "settings": {
+        "badge_text": "Ceramic Core Tech",
+        "eyebrow": "Our Technology",
+        "title": "More Than Just a Scent",
+        "cta_text": "Discover the Technology"
+      },
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "feature_title": "Zero-Liquid Formula",
+            "feature_desc": "Solid-state fragrance that won't spill, evaporate, or degrade in summer heat."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_title": "45-Day Lasting Power",
+            "feature_desc": "Ceramic-core diffusion releases scent evenly for a full 45 days of consistent luxury."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_title": "100% Natural Oils",
+            "feature_desc": "Every fragrance is crafted from pure natural oils — no synthetics, no compromise."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

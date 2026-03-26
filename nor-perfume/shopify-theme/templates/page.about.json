@@ -1,0 +1,50 @@
+{
+  "sections": {
+    "page_about": {
+      "type": "page-about",
+      "blocks": {
+        "editorial_0": {
+          "type": "editorial",
+          "settings": {
+            "image_position": "left",
+            "badge_label": "Ceramic Core Tech",
+            "badge_subtext": "Zero-liquid, spill-proof innovation",
+            "eyebrow": "The Experience",
+            "heading": "More Than Just a Scent.",
+            "body": "We believe your car is an extension of your personal sanctuary. NOR diffusers are engineered with premium aerospace-grade aluminum and feature a minimalist design that seamlessly integrates into luxury interiors.",
+            "feature_1_title": "Long-lasting Release",
+            "feature_1_text": "Up to 45 days of continuous fragrance",
+            "feature_2_title": "Sustainably Sourced",
+            "feature_2_text": "100% natural essential oils, ethically obtained",
+            "feature_3_title": "Zero-Liquid Technology",
+            "feature_3_text": "Spill-proof ceramic core, safe for all vehicles",
+            "feature_4_title": "",
+            "feature_4_text": "",
+            "cta_label": "Shop the Collection",
+            "cta_url": "/collections/all"
+          }
+        },
+        "stats_0": {
+          "type": "stats",
+          "settings": {
+            "stat_1_number": "45",
+            "stat_1_label": "Days of fragrance",
+            "stat_2_number": "100%",
+            "stat_2_label": "Natural oils",
+            "stat_3_number": "8+",
+            "stat_3_label": "Signature scents",
+            "stat_4_number": "0",
+            "stat_4_label": "Liquid, zero spills"
+          }
+        }
+      },
+      "block_order": ["editorial_0", "stats_0"],
+      "settings": {
+        "eyebrow": "Our Story",
+        "title": "The NOR Philosophy",
+        "subtitle": "Born from a desire to bridge fine perfumery and automotive luxury."
+      }
+    }
+  },
+  "order": ["page_about"]
+}

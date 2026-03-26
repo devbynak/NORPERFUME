@@ -1,0 +1,76 @@
+{% comment %}
+  Product Card Snippet
+  Usage: {% render 'product-card', product: product, delay: forloop.index0 %}
+
+  Parameters:
+    product {Object} - Shopify product object (required)
+    delay   {Number} - Animation stagger index, defaults to 0 (optional)
+{% endcomment %}
+
+{% assign delay = delay | default: 0 %}
+
+<article class="product-card fade-up" data-delay="{{ delay | times: 100 }}">
+  <div class="prod-img-wrap">
+    <a href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+      <div
+        class="prod-img-inner"
+        style="background-image: url('{{ product.featured_image | image_url: width: 600 }}')"
+        role="img"
+        aria-label="{{ product.featured_image.alt | default: product.title | escape }}"
+      ></div>
+    </a>
+
+    {% if product.tags contains 'bestseller' %}
+      <span class="prod-badge">Bestseller</span>
+    {% elsif product.tags contains 'new' %}
+      <span class="prod-badge prod-badge-new">New</span>
+    {% endif %}
+
+    <div class="prod-overlay">
+      <button
+        class="btn-quick btn-add-cart"
+        data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+        aria-label="Quick add {{ product.title | escape }} to cart"
+        {% unless product.available %}disabled aria-disabled="true"{% endunless %}
+      >
+        {% if product.available %}
+          Quick Add
+        {% else %}
+          Sold Out
+        {% endif %}
+      </button>
+    </div>
+  </div>
+
+  <div class="prod-info">
+    <h3 class="prod-name">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    <p class="prod-notes">
+      {{ product.metafields.custom.notes | default: product.type }}
+    </p>
+
+    <div class="prod-footer">
+      <span class="prod-price">
+        {% if product.compare_at_price > product.price %}
+          <span class="prod-price-compare">{{ product.compare_at_price | money }}</span>
+          <span class="prod-price-sale">{{ product.price | money }}</span>
+        {% else %}
+          {{ product.price | money }}
+        {% endif %}
+      </span>
+
+      <button
+        class="btn-circle-add btn-add-cart"
+        data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+        aria-label="Add {{ product.title | escape }} to cart"
+        {% unless product.available %}disabled aria-disabled="true"{% endunless %}
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</article>

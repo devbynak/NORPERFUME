@@ -1,0 +1,390 @@
+{%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+{%- assign products_per_page = section.settings.products_per_page | default: 12 -%}
+
+<style>
+  .collection-page-header {
+    padding: 110px 0 20px;
+    text-align: center;
+    position: relative;
+  }
+  .collection-page-header .eyebrow {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .collection-page-header .sec-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 300;
+    color: var(--c-cream);
+    margin-bottom: 10px;
+  }
+  .collection-desc {
+    font-size: .9rem;
+    color: var(--c-text2);
+    font-weight: 300;
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+  .collection-toolbar {
+    border-top: 1px solid rgba(217,217,217,.08);
+    border-bottom: 1px solid rgba(217,217,217,.08);
+    padding: 14px 0;
+    margin-bottom: 24px;
+  }
+  .collection-toolbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .collection-count {
+    font-size: .72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--c-text3);
+  }
+  .sort-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sort-label {
+    font-size: .68rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--c-text3);
+  }
+  .sort-select-wrap {
+    position: relative;
+  }
+  .sort-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(217,217,217,.12);
+    border-radius: 8px;
+    padding: 8px 32px 8px 14px;
+    font-family: var(--sans);
+    font-size: .75rem;
+    color: var(--c-cream);
+    cursor: pointer;
+    outline: none;
+  }
+  .sort-select:focus {
+    border-color: rgba(217,217,217,.3);
+  }
+  .sort-chevron {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--c-text3);
+  }
+  .collection-grid-page {
+    padding-bottom: 80px;
+  }
+  .collection-product-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-cols, 4), 1fr);
+    gap: 24px;
+  }
+  .collection-pagination {
+    margin-top: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .collection-pagination a,
+  .collection-pagination span {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: .75rem;
+    font-family: var(--sans);
+    color: var(--c-text2);
+    border: 1px solid rgba(217,217,217,.1);
+    text-decoration: none;
+    transition: all .25s ease;
+  }
+  .collection-pagination a:hover {
+    border-color: rgba(217,217,217,.3);
+    color: var(--c-cream);
+  }
+  .collection-pagination .current {
+    background: var(--c-cream);
+    color: var(--c-bg);
+    border-color: var(--c-cream);
+  }
+  @media (max-width: 900px) {
+    .collection-product-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 500px) {
+    .collection-product-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<!-- ===================== COLLECTION HEADER ===================== -->
+<header class="page-header collection-page-header">
+  <div class="container">
+    <span class="eyebrow fade-up">{{ section.settings.eyebrow | default: 'The Signature Series' }}</span>
+    <h1 class="sec-title fade-up" data-delay="100">
+      {{ collection.title }}
+    </h1>
+    {%- if collection.description != blank -%}
+      <p class="collection-desc fade-up" data-delay="200">{{ collection.description }}</p>
+    {%- endif -%}
+  </div>
+</header>
+
+<!-- ===================== SORT + COUNT BAR ===================== -->
+{%- if section.settings.show_sort -%}
+<div class="collection-toolbar">
+  <div class="container">
+    <div class="collection-toolbar-inner">
+      <span class="collection-count">
+        {{ collection.products_count }}
+        {%- if collection.products_count == 1 -%}
+          product
+        {%- else -%}
+          products
+        {%- endif -%}
+      </span>
+
+      <div class="sort-wrap">
+        <label class="sort-label" for="CollectionSortBy">
+          Sort by
+        </label>
+        <div class="sort-select-wrap">
+          <select
+            name="sort_by"
+            id="CollectionSortBy"
+            class="sort-select"
+            aria-describedby="a11y-refresh-page-message"
+            onchange="this.form.submit()"
+            form="CollectionFiltersForm"
+          >
+            {%- for option in collection.sort_options -%}
+              <option
+                value="{{ option.value | escape }}"
+                {%- if option.value == sort_by %} selected="selected"{% endif %}
+              >
+                {{- option.name | escape -}}
+              </option>
+            {%- endfor -%}
+          </select>
+          <svg class="sort-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+<!-- ===================== PRODUCT GRID ===================== -->
+<section class="collection-grid-page">
+  <div class="container">
+
+    <form id="CollectionFiltersForm" method="get">
+      <input type="hidden" name="sort_by" value="{{ sort_by }}">
+    </form>
+
+    {%- paginate collection.products by products_per_page -%}
+
+      {%- if collection.products.size > 0 -%}
+        <div
+          class="product-grid collection-product-grid"
+          style="--grid-cols: {{ section.settings.grid_columns }};"
+          id="product-grid"
+          data-id="{{ section.id }}"
+        >
+          {%- for product in collection.products -%}
+            {%- assign delay = forloop.index0 | times: 100 | at_most: 300 -%}
+            <article class="product-card fade-up" data-delay="{{ delay }}">
+              <div class="prod-img-wrap">
+                <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+                  {%- if product.featured_image -%}
+                    <div
+                      class="prod-img-inner"
+                      style="background-image: url('{{ product.featured_image | image_url: width: 600 }}');"
+                      role="img"
+                      aria-label="{{ product.featured_image.alt | default: product.title | escape }}"
+                    ></div>
+                  {%- else -%}
+                    <div class="prod-img-inner prod-img-placeholder"></div>
+                  {%- endif -%}
+                </a>
+
+                {%- if product.tags contains 'bestseller' -%}
+                  <span class="prod-badge">Bestseller</span>
+                {%- elsif product.tags contains 'new' -%}
+                  <span class="prod-badge prod-badge-new">New</span>
+                {%- elsif product.tags contains 'limited' -%}
+                  <span class="prod-badge prod-badge-limited">Limited</span>
+                {%- endif -%}
+
+                {%- unless product.available -%}
+                  <span class="prod-badge prod-badge-sold-out">Sold Out</span>
+                {%- endunless -%}
+
+                <div class="prod-overlay">
+                  <button
+                    class="btn-quick btn-add-cart"
+                    data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                    data-product-title="{{ product.title | escape }}"
+                    {% unless product.available %}disabled aria-disabled="true"{% endunless %}
+                  >
+                    {%- if product.available -%}Quick Add{%- else -%}Sold Out{%- endif -%}
+                  </button>
+                </div>
+              </div>
+
+              <div class="prod-info">
+                <h3 class="prod-name">
+                  <a href="{{ product.url }}">{{ product.title }}</a>
+                </h3>
+                <p class="prod-notes">
+                  {{- product.metafields.custom.notes | default: product.type -}}
+                </p>
+                <div class="prod-footer">
+                  <div class="prod-pricing">
+                    {%- if product.compare_at_price > product.price -%}
+                      <span class="prod-price prod-price--sale">{{ product.price | money }}</span>
+                      <span class="prod-price--compare">{{ product.compare_at_price | money }}</span>
+                      {%- assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+                      <span class="prod-offer-tag">{{ discount }}% OFF</span>
+                    {%- else -%}
+                      <span class="prod-price">{{ product.price | money }}</span>
+                    {%- endif -%}
+                  </div>
+                  <button
+                    class="btn-circle-add btn-add-cart"
+                    data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                    data-product-title="{{ product.title | escape }}"
+                    aria-label="{{ 'products.product.add_to_cart' | t | default: 'Add to cart' }} — {{ product.title | escape }}"
+                    {% unless product.available %}disabled aria-disabled="true"{% endunless %}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+
+      {%- else -%}
+        <!-- Empty collection state -->
+        <div class="collection-empty fade-up">
+          <p class="collection-empty-msg">
+            {{ 'collections.general.no_matches' | t | default: 'No products found in this collection.' }}
+          </p>
+          <a href="{{ routes.all_products_collection_url }}" class="cta-primary">
+            {{ 'general.continue_shopping' | t | default: 'Continue Shopping' }}
+          </a>
+        </div>
+      {%- endif -%}
+
+      <!-- ===================== PAGINATION ===================== -->
+      {%- if paginate.pages > 1 -%}
+        <nav class="pagination-wrap" role="navigation" aria-label="{{ 'general.pagination.label' | t | default: 'Pagination' }}">
+          <ul class="pagination">
+            {%- if paginate.previous -%}
+              <li class="pagination-item">
+                <a href="{{ paginate.previous.url }}" class="pagination-btn pagination-prev" aria-label="{{ 'general.pagination.previous' | t | default: 'Previous page' }}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+                </a>
+              </li>
+            {%- endif -%}
+
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <li class="pagination-item">
+                  <a href="{{ part.url }}" class="pagination-btn" aria-label="{{ 'general.pagination.page' | t: number: part.title | default: part.title }}">
+                    {{- part.title -}}
+                  </a>
+                </li>
+              {%- else -%}
+                {%- if part.title == paginate.current_page -%}
+                  <li class="pagination-item pagination-current" aria-current="page">
+                    <span class="pagination-btn">{{- part.title -}}</span>
+                  </li>
+                {%- else -%}
+                  <li class="pagination-item">
+                    <span class="pagination-btn pagination-ellipsis">&hellip;</span>
+                  </li>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if paginate.next -%}
+              <li class="pagination-item">
+                <a href="{{ paginate.next.url }}" class="pagination-btn pagination-next" aria-label="{{ 'general.pagination.next' | t | default: 'Next page' }}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+                </a>
+              </li>
+            {%- endif -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection Template",
+  "tag": "div",
+  "class": "section-collection-template",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "The Signature Series",
+      "info": "Small uppercase label shown above the collection title."
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "grid_columns",
+      "label": "Grid columns (desktop)",
+      "options": [
+        { "value": "2", "label": "2 columns" },
+        { "value": "3", "label": "3 columns" },
+        { "value": "4", "label": "4 columns" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sort",
+      "label": "Show sort-by dropdown",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Template"
+    }
+  ]
+}
+{% endschema %}

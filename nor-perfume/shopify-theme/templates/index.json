@@ -1,0 +1,214 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "eyebrow": "Luxury Car Fragrance",
+        "title_line_1": "Scent That",
+        "title_line_2": "Moves You",
+        "subtitle": "45 days of refined fragrance. Zero liquids. Pure presence.",
+        "cta_primary_text": "Shop Now",
+        "cta_primary_link": "/collections/all",
+        "cta_ghost_text": "How It Works",
+        "cta_ghost_link": "/pages/about",
+        "card_left_label": "Bestseller",
+        "card_left_value": "Noir Oud",
+        "card_left_sub": "45 days lasting",
+        "card_right_label": "Customer Rating",
+        "card_right_stars": 5,
+        "card_right_value": "4.9 / 5",
+        "card_right_sub": "2,400+ happy customers"
+      }
+    },
+    "marquee_strip": {
+      "type": "marquee-strip",
+      "block_order": [
+        "marquee_item_1",
+        "marquee_item_2",
+        "marquee_item_3",
+        "marquee_item_4",
+        "marquee_item_5",
+        "marquee_item_6"
+      ],
+      "blocks": {
+        "marquee_item_1": {
+          "type": "item",
+          "settings": {
+            "text": "Luxury Car Fragrance"
+          }
+        },
+        "marquee_item_2": {
+          "type": "item",
+          "settings": {
+            "text": "Crafted in India"
+          }
+        },
+        "marquee_item_3": {
+          "type": "item",
+          "settings": {
+            "text": "Zero-Liquid Technology"
+          }
+        },
+        "marquee_item_4": {
+          "type": "item",
+          "settings": {
+            "text": "45 Days Lasting"
+          }
+        },
+        "marquee_item_5": {
+          "type": "item",
+          "settings": {
+            "text": "100% Natural Oils"
+          }
+        },
+        "marquee_item_6": {
+          "type": "item",
+          "settings": {
+            "text": "Worn Worldwide"
+          }
+        }
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "The Signature Series",
+        "title": "A Symphony of Scents",
+        "products_to_show": 4,
+        "view_all_text": "View All Collections",
+        "view_all_link": "/collections/all"
+      }
+    },
+    "editorial": {
+      "type": "editorial",
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3"
+      ],
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "feature_title": "Zero-Liquid Formula",
+            "feature_desc": "Solid-state fragrance that won't spill, evaporate, or degrade in summer heat."
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "feature_title": "45-Day Lasting Power",
+            "feature_desc": "Ceramic-core diffusion releases scent evenly for a full 45 days of consistent luxury."
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "feature_title": "100% Natural Oils",
+            "feature_desc": "Every fragrance is crafted from pure natural oils — no synthetics, no compromise."
+          }
+        }
+      },
+      "settings": {
+        "badge_text": "Ceramic Core Tech",
+        "eyebrow": "Our Technology",
+        "title": "More Than Just a Scent",
+        "body": "<p>NOR fragrances are built on a patented ceramic-core diffusion system — no liquids, no leaks, no compromise. Every molecule of scent is released precisely over 45 days, filling your cabin with consistent, refined luxury from the first drive to the last.</p>",
+        "cta_text": "Discover the Technology",
+        "cta_link": "/pages/about"
+      }
+    },
+    "stats_row": {
+      "type": "stats-row",
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "stat_4"
+      ],
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "number": "45",
+            "suffix": "+",
+            "label": "Days Lasting"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "number": "12",
+            "suffix": "",
+            "label": "Unique Fragrances"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "number": "100",
+            "suffix": "%",
+            "label": "Natural Oils"
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "settings": {
+            "number": "2400",
+            "suffix": "+",
+            "label": "Happy Customers"
+          }
+        }
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "Absolutely transformed my morning commute. The scent is subtle yet unmistakably premium — exactly what I expected from NOR.",
+            "author_name": "Arjun Mehta",
+            "author_location": "Mumbai, India"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "Still going strong after 6 weeks. I've tried every car fragrance on the market — NOR is in a different league entirely.",
+            "author_name": "Priya Nair",
+            "author_location": "Bangalore, India"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "The Noir Oud is incredible. My passengers always ask what the scent is. Worth every rupee.",
+            "author_name": "Rohan Singhania",
+            "author_location": "Delhi, India"
+          }
+        }
+      },
+      "settings": {
+        "eyebrow": "What Drivers Say",
+        "title": "Loved by Connoisseurs"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "marquee_strip",
+    "featured_collection",
+    "editorial",
+    "stats_row",
+    "testimonials"
+  ]
+}

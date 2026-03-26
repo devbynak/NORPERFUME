@@ -1,0 +1,91 @@
+<div class="stats-row" id="section-{{ section.id }}" data-section-type="stats-row">
+  {%- for block in section.blocks -%}
+    <div class="stat-col fade-up" data-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
+      <div class="stat-value">
+        <span class="stat-num" data-target="{{ block.settings.number }}">0</span><!--
+        -->{%- if block.settings.suffix != blank -%}<span class="stat-suf">{{ block.settings.suffix }}</span>{%- endif -%}
+      </div>
+      <span class="stat-lbl">{{ block.settings.label }}</span>
+    </div>
+    {%- unless forloop.last -%}
+      <div class="stat-sep" aria-hidden="true"></div>
+    {%- endunless -%}
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Stats Row",
+  "class": "section-stats-row",
+  "tag": "section",
+  "max_blocks": 4,
+  "settings": [],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number (data-target)",
+          "info": "Numeric value the counter animates to (e.g. 45, 2400)",
+          "default": "45"
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Suffix",
+          "info": "Appended to the number, e.g. + or %",
+          "default": "+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Days Lasting"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stats Row",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "number": "45",
+            "suffix": "+",
+            "label": "Days Lasting"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "12",
+            "suffix": "",
+            "label": "Unique Fragrances"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "100",
+            "suffix": "%",
+            "label": "Natural Oils"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "2400",
+            "suffix": "+",
+            "label": "Happy Customers"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

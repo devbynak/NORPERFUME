@@ -1,0 +1,61 @@
+{
+  "current": {
+    "color_background": "#0a0a0a",
+    "color_text": "#e8dcc8",
+    "color_accent": "#c9a96e",
+    "color_surface": "#141414",
+    "color_border": "#2a2a2a",
+
+    "color_button_bg": "#c9a96e",
+    "color_button_text": "#0a0a0a",
+    "color_button_border": "#c9a96e",
+    "color_button_secondary_bg": "rgba(0,0,0,0)",
+    "color_button_secondary_text": "#c9a96e",
+    "color_button_secondary_border": "#c9a96e",
+
+    "color_header_bg": "#0a0a0a",
+    "color_header_text": "#e8dcc8",
+
+    "color_footer_bg": "#050505",
+    "color_footer_text": "#a09070",
+
+    "font_heading": "cormorant_garamond_n4",
+    "font_heading_scale": 100,
+    "font_body": "jost_n4",
+    "font_body_scale": 100,
+    "font_body_weight": "300",
+
+    "logo": "",
+    "logo_width": 80,
+    "logo_alt": "NOR",
+    "favicon": "",
+    "share_image": "",
+
+    "social_instagram_link": "",
+    "social_facebook_link": "",
+    "social_tiktok_link": "",
+    "social_youtube_link": "",
+    "social_twitter_link": "",
+    "social_pinterest_link": "",
+    "whatsapp_number": "",
+    "whatsapp_default_message": "Hello, I'm interested in NOR Perfume.",
+
+    "newsletter_enabled": true,
+    "newsletter_heading": "Join the Inner Circle",
+    "newsletter_subtext": "Be the first to discover new collections, exclusive offers, and the stories behind each scent.",
+    "newsletter_button_label": "Subscribe",
+    "newsletter_success_message": "Thank you for subscribing.",
+
+    "cart_type": "drawer",
+    "cart_notes_enabled": false,
+    "cart_terms_enabled": false,
+    "cart_terms_page": "",
+
+    "predictive_search_enabled": true,
+    "predictive_search_show_vendor": "false",
+
+    "animations_enabled": true,
+    "custom_cursor_enabled": true
+  },
+  "presets": {}
+}

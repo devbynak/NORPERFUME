@@ -1,0 +1,158 @@
+<section
+  id="section-{{ section.id }}"
+  class="panel panel-reviews"
+  data-section-id="{{ section.id }}"
+  data-section-type="testimonials"
+>
+  <div class="container">
+
+    <header class="sec-header fade-up">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="sec-title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+    </header>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="reviews-grid">
+        {%- for block in section.blocks -%}
+          <article
+            class="review-card fade-up"
+            data-delay="{{ forloop.index0 | times: 100 }}"
+            {{ block.shopify_attributes }}
+          >
+            <div class="review-stars" aria-label="{{ block.settings.stars }} out of 5 stars">
+              {%- assign star_count = block.settings.stars | times: 1 -%}
+              {%- for i in (1..star_count) -%}
+                <span aria-hidden="true">&#9733;</span>
+              {%- endfor -%}
+              {%- assign empty_stars = 5 | minus: star_count -%}
+              {%- for i in (1..empty_stars) -%}
+                <span class="review-stars__empty" aria-hidden="true">&#9733;</span>
+              {%- endfor -%}
+            </div>
+
+            <blockquote class="review-text">
+              <p>{{ block.settings.quote }}</p>
+            </blockquote>
+
+            <footer class="review-author">
+              <div class="author-av" aria-hidden="true">
+                {{- block.settings.author_name | slice: 0 | upcase -}}
+              </div>
+              <div class="review-author__info">
+                <cite class="review-author__name">{{ block.settings.author_name }}</cite>
+                {%- if block.settings.author_location != blank -%}
+                  <span class="review-author__location">{{ block.settings.author_location }}</span>
+                {%- endif -%}
+              </div>
+            </footer>
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "class": "section-testimonials",
+  "tag": "section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "What Drivers Say"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Loved by Connoisseurs"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "stars",
+          "label": "Star rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Review text",
+          "default": "Absolutely transformed my morning commute. The scent is subtle yet unmistakably premium — exactly what I expected from NOR."
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author name",
+          "default": "Arjun Mehta"
+        },
+        {
+          "type": "text",
+          "id": "author_location",
+          "label": "Author location",
+          "default": "Mumbai, India"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "settings": {
+        "eyebrow": "What Drivers Say",
+        "title": "Loved by Connoisseurs"
+      },
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "Absolutely transformed my morning commute. The scent is subtle yet unmistakably premium — exactly what I expected from NOR.",
+            "author_name": "Arjun Mehta",
+            "author_location": "Mumbai, India"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "Still going strong after 6 weeks. I've tried every car fragrance on the market — NOR is in a different league entirely.",
+            "author_name": "Priya Nair",
+            "author_location": "Bangalore, India"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "The Noir Oud is incredible. My passengers always ask what the scent is. Worth every rupee.",
+            "author_name": "Rohan Singhania",
+            "author_location": "Delhi, India"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

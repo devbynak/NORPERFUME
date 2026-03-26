@@ -1,0 +1,484 @@
+<!-- ===================== PRODUCT DETAIL ===================== -->
+<section class="pdp-wrapper page-header-pdp" id="product-{{ product.id }}">
+  <div class="container">
+    <div class="pdp-layout">
+
+      <!-- ── GALLERY PANEL ── -->
+      <div class="pdp-gallery fade-up" data-delay="0">
+
+        <!-- Main image -->
+        <div class="pdp-main-img-wrap">
+          {%- if product.featured_image -%}
+            <img
+              id="pdp-main-img"
+              class="pdp-main-img-tag"
+              src="{{ product.featured_image | image_url: width: 800 }}"
+              alt="{{ product.featured_image.alt | default: product.title | escape }}"
+              width="800"
+              loading="eager"
+            >
+          {%- else -%}
+            <div class="pdp-main-img pdp-img-placeholder"></div>
+          {%- endif -%}
+        </div>
+
+        <!-- Thumbnail strip (shown only when multiple images exist) -->
+        {%- if product.images.size > 1 -%}
+          <div class="pdp-thumbs" role="list" aria-label="Product images">
+            {%- for image in product.images limit: 8 -%}
+              <button
+                class="pdp-thumb{% if forloop.first %} active{% endif %}"
+                data-img-src="{{ image | image_url: width: 800 }}"
+                data-img-alt="{{ image.alt | default: product.title | escape }}"
+                aria-label="{{ 'products.product.gallery_thumbnail_alt' | t | default: 'View image' }} {{ forloop.index }}"
+                role="listitem"
+              >
+                <img
+                  src="{{ image | image_url: width: 120 }}"
+                  alt="{{ image.alt | default: product.title | escape }}"
+                  width="120"
+                  loading="lazy"
+                >
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+
+      <!-- ── INFO PANEL ── -->
+      <div class="pdp-info fade-up" data-delay="100">
+
+        <!-- Eyebrow: collection name or type -->
+        <span class="pdp-eyebrow">
+          {%- if product.collections.first -%}
+            {{ product.collections.first.title }}
+          {%- else -%}
+            {{ product.type }}
+          {%- endif -%}
+        </span>
+
+        <h1 class="pdp-title">{{ product.title }}</h1>
+
+        <!-- Price -->
+        <div class="pdp-price-wrap">
+          {%- if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}
+            <span class="pdp-price pdp-price-sale">
+              {{- product.selected_or_first_available_variant.price | money -}}
+            </span>
+            <s class="pdp-price-compare">
+              {{- product.selected_or_first_available_variant.compare_at_price | money -}}
+            </s>
+            <span class="pdp-save-badge">
+              {%- assign savings = product.selected_or_first_available_variant.compare_at_price | minus: product.selected_or_first_available_variant.price -%}
+              Save {{ savings | money }}
+            </span>
+          {%- else -%}
+            <span class="pdp-price">
+              {{- product.selected_or_first_available_variant.price | money -}}
+            </span>
+          {%- endif -%}
+        </div>
+
+        <!-- Short description / notes metafield -->
+        {%- if product.metafields.custom.notes != blank -%}
+          <div class="pdp-notes">
+            <h4>Scent Profile</h4>
+            <p>{{ product.metafields.custom.notes }}</p>
+          </div>
+        {%- endif -%}
+
+        <!-- Full description -->
+        {%- if product.description != blank -%}
+          <div class="pdp-desc rte">
+            {{ product.description }}
+          </div>
+        {%- endif -%}
+
+        <!-- ── ADD TO CART FORM ── -->
+        {%- form 'product', product, id: 'product-form-{{ product.id }}', class: 'pdp-form', novalidate: 'novalidate' -%}
+
+          <!-- Variant selector (only if more than one variant) -->
+          {%- unless product.has_only_default_variant -%}
+            <div class="pdp-variants">
+              {%- for option in product.options_with_values -%}
+                <div class="pdp-option" data-option-index="{{ forloop.index0 }}">
+                  <label class="pdp-option-label" for="option-{{ section.id }}-{{ forloop.index0 }}">
+                    {{ option.name }}
+                  </label>
+                  <div class="pdp-option-btns" role="radiogroup" aria-label="{{ option.name | escape }}">
+                    {%- for value in option.values -%}
+                      {%- assign variant_for_value = product.variants | where: "option{{ forloop.parentloop.index }}", value | first -%}
+                      <input
+                        type="radio"
+                        id="option-{{ section.id }}-{{ forloop.parentloop.index0 }}-{{ forloop.index0 }}"
+                        name="option-{{ forloop.parentloop.index0 }}"
+                        value="{{ value | escape }}"
+                        class="pdp-option-radio visually-hidden"
+                        {%- if variant_for_value.available == false %} data-soldout="true"{% endif %}
+                        {%- if forloop.first %} checked{% endif %}
+                      >
+                      <label
+                        class="pdp-option-btn{% if variant_for_value.available == false %} soldout{% endif %}"
+                        for="option-{{ section.id }}-{{ forloop.parentloop.index0 }}-{{ forloop.index0 }}"
+                      >
+                        {{ value | escape }}
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- endfor -%}
+
+              <!-- Hidden variant select (required by Shopify) -->
+              <select name="id" id="Variants-{{ section.id }}" class="visually-hidden" aria-label="{{ 'products.product.variant_selector' | t | default: 'Variant' }}">
+                {%- for variant in product.variants -%}
+                  <option
+                    value="{{ variant.id }}"
+                    {%- if variant == product.selected_or_first_available_variant %} selected="selected"{% endif %}
+                    {%- unless variant.available %} disabled{% endunless %}
+                  >
+                    {{ variant.title }} — {{ variant.price | money }}
+                  </option>
+                {%- endfor -%}
+              </select>
+            </div>
+          {%- else -%}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          {%- endunless -%}
+
+          <!-- Quantity selector -->
+          <div class="pdp-qty-row">
+            <label class="pdp-option-label" for="Quantity-{{ section.id }}">
+              {{ 'products.product.quantity.label' | t | default: 'Quantity' }}
+            </label>
+            <div class="qty-control pdp-qty-control">
+              <button
+                type="button"
+                class="qty-btn pdp-qty-btn"
+                aria-label="{{ 'products.product.quantity.decrease' | t | default: 'Decrease quantity' }}"
+                data-action="decrease"
+                data-target="Quantity-{{ section.id }}"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <input
+                type="number"
+                id="Quantity-{{ section.id }}"
+                name="quantity"
+                value="1"
+                min="1"
+                class="qty-num pdp-qty-input"
+                aria-label="{{ 'products.product.quantity.input_label' | t: product: product.title | default: 'Quantity' }}"
+              >
+              <button
+                type="button"
+                class="qty-btn pdp-qty-btn"
+                aria-label="{{ 'products.product.quantity.increase' | t | default: 'Increase quantity' }}"
+                data-action="increase"
+                data-target="Quantity-{{ section.id }}"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Add to cart button -->
+          <div class="pdp-actions">
+            <button
+              type="submit"
+              name="add"
+              class="cta-primary pdp-atc-btn btn-large-add"
+              {% unless product.selected_or_first_available_variant.available %}disabled aria-disabled="true"{% endunless %}
+              aria-label="{{ 'products.product.add_to_cart' | t | default: 'Add to cart' }}"
+            >
+              {%- if product.selected_or_first_available_variant.available -%}
+                {{ 'products.product.add_to_cart' | t | default: 'Add to Cart' }}
+              {%- else -%}
+                {{ 'products.product.sold_out' | t | default: 'Sold Out' }}
+              {%- endif -%}
+            </button>
+          </div>
+
+        {%- endform -%}
+
+        <!-- ── TRUST BADGES ── -->
+        {%- if section.settings.show_trust_badges -%}
+          <div class="pdp-trust trust-grid">
+            <div class="trust-card">
+              <div class="trust-ico" aria-hidden="true">&#9992;</div>
+              <h4>{{ section.settings.trust_1_title | default: 'International Shipping' }}</h4>
+              <p>{{ section.settings.trust_1_text | default: 'Worldwide shipping — customs & duties excluded' }}</p>
+            </div>
+            <div class="trust-card">
+              <div class="trust-ico" aria-hidden="true">&#128172;</div>
+              <h4>{{ section.settings.trust_2_title | default: 'Customer Service' }}</h4>
+              <p>{{ section.settings.trust_2_text | default: 'Get in touch via WhatsApp' }}</p>
+            </div>
+            <div class="trust-card">
+              <div class="trust-ico" aria-hidden="true">&#128274;</div>
+              <h4>{{ section.settings.trust_3_title | default: 'Secure Payment' }}</h4>
+              <p>{{ section.settings.trust_3_text | default: 'Your payment information is processed securely.' }}</p>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <!-- ── ACCORDIONS ── -->
+        <div class="pdp-accordion">
+          {%- if product.metafields.custom.technology != blank -%}
+            <div class="pdp-accordion-item">
+              <button type="button" class="pdp-accordion-header" aria-expanded="false" aria-controls="accordion-technology-{{ section.id }}">
+                <span>{{ 'products.product.accordion.technology' | t | default: 'The Technology' }}</span>
+                <span class="pdp-accordion-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="pdp-accordion-content" id="accordion-technology-{{ section.id }}" hidden>
+                <p>{{ product.metafields.custom.technology }}</p>
+              </div>
+            </div>
+          {%- else -%}
+            <div class="pdp-accordion-item active">
+              <button type="button" class="pdp-accordion-header" aria-expanded="true" aria-controls="accordion-tech-default-{{ section.id }}">
+                <span>{{ 'products.product.accordion.technology' | t | default: 'The Technology' }}</span>
+                <span class="pdp-accordion-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="pdp-accordion-content" id="accordion-tech-default-{{ section.id }}">
+                <p>{{ section.settings.accordion_technology_text | default: 'Engineered from aerospace-grade aluminum, the diffuser houses our proprietary porous ceramic core. This spill-proof design ensures a perfectly calibrated, continuous release of fragrance for up to 45 days, unaffected by cabin temperature fluctuations.' }}</p>
+              </div>
+            </div>
+          {%- endif -%}
+
+          <div class="pdp-accordion-item">
+            <button type="button" class="pdp-accordion-header" aria-expanded="false" aria-controls="accordion-shipping-{{ section.id }}">
+              <span>{{ 'products.product.accordion.shipping' | t | default: 'Shipping & Returns' }}</span>
+              <span class="pdp-accordion-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pdp-accordion-content" id="accordion-shipping-{{ section.id }}" hidden>
+              <p>{{ section.settings.accordion_shipping_text | default: 'Complimentary express shipping on all orders. Each product is crafted to rigorous standards; however, if you are not entirely satisfied, we offer a 14-day return window for unused items.' }}</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /pdp-info -->
+    </div><!-- /pdp-layout -->
+  </div><!-- /container -->
+</section>
+
+<!-- ===================== RELATED PRODUCTS ===================== -->
+{%- if section.settings.show_related_products -%}
+  {%- assign related_limit = section.settings.related_products_count | default: 4 -%}
+  {%- assign related_products = product.collections.first.products | where: 'available', true -%}
+  {%- if related_products.size > 1 -%}
+    <section class="related-products-section">
+      <div class="container">
+        <div class="sec-header sec-header-center">
+          <span class="eyebrow">{{ section.settings.related_eyebrow | default: 'You May Also Like' }}</span>
+          <h2 class="sec-title">{{ section.settings.related_title | default: 'Explore More' }}</h2>
+        </div>
+        <div class="product-grid related-product-grid">
+          {%- for related in related_products limit: related_limit -%}
+            {%- if related.id != product.id -%}
+              {%- assign delay = forloop.index0 | times: 100 | at_most: 300 -%}
+              <article class="product-card fade-up" data-delay="{{ delay }}">
+                <div class="prod-img-wrap">
+                  <a href="{{ related.url }}" aria-label="{{ related.title | escape }}">
+                    {%- if related.featured_image -%}
+                      <div
+                        class="prod-img-inner"
+                        style="background-image: url('{{ related.featured_image | image_url: width: 600 }}');"
+                      ></div>
+                    {%- else -%}
+                      <div class="prod-img-inner prod-img-placeholder"></div>
+                    {%- endif -%}
+                  </a>
+                  {%- if related.tags contains 'bestseller' -%}
+                    <span class="prod-badge">Bestseller</span>
+                  {%- elsif related.tags contains 'new' -%}
+                    <span class="prod-badge prod-badge-new">New</span>
+                  {%- endif -%}
+                  <div class="prod-overlay">
+                    <button
+                      class="btn-quick btn-add-cart"
+                      data-variant-id="{{ related.selected_or_first_available_variant.id }}"
+                      {% unless related.available %}disabled{% endunless %}
+                    >Quick Add</button>
+                  </div>
+                </div>
+                <div class="prod-info">
+                  <h3 class="prod-name"><a href="{{ related.url }}">{{ related.title }}</a></h3>
+                  <p class="prod-notes">{{ related.metafields.custom.notes | default: related.type }}</p>
+                  <div class="prod-footer">
+                    <span class="prod-price">{{ related.price | money }}</span>
+                    <button
+                      class="btn-circle-add btn-add-cart"
+                      data-variant-id="{{ related.selected_or_first_available_variant.id }}"
+                      aria-label="Add {{ related.title | escape }} to cart"
+                      {% unless related.available %}disabled{% endunless %}
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </article>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+{%- endif -%}
+
+<!-- Gallery thumbnail switcher script -->
+<script>
+  (function () {
+    var thumbs = document.querySelectorAll('#product-{{ product.id }} .pdp-thumb');
+    var mainImg = document.getElementById('pdp-main-img');
+    if (!thumbs.length || !mainImg) return;
+    thumbs.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        thumbs.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        mainImg.src = btn.dataset.imgSrc;
+        mainImg.alt = btn.dataset.imgAlt || '';
+      });
+    });
+
+    // Quantity stepper
+    document.querySelectorAll('.pdp-qty-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var input = document.getElementById(btn.dataset.target);
+        if (!input) return;
+        var val = parseInt(input.value, 10) || 1;
+        if (btn.dataset.action === 'increase') {
+          input.value = val + 1;
+        } else if (btn.dataset.action === 'decrease' && val > 1) {
+          input.value = val - 1;
+        }
+      });
+    });
+
+    // Accordion toggle
+    document.querySelectorAll('.pdp-accordion-header').forEach(function (header) {
+      header.addEventListener('click', function () {
+        var item = header.closest('.pdp-accordion-item');
+        var content = document.getElementById(header.getAttribute('aria-controls'));
+        var isOpen = item.classList.contains('active');
+        if (isOpen) {
+          item.classList.remove('active');
+          header.setAttribute('aria-expanded', 'false');
+          if (content) content.hidden = true;
+        } else {
+          item.classList.add('active');
+          header.setAttribute('aria-expanded', 'true');
+          if (content) content.hidden = false;
+        }
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product Template",
+  "tag": "div",
+  "class": "section-product-template",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Trust Badges"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_badges",
+      "label": "Show trust badges",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "trust_1_title",
+      "label": "Badge 1 — Title",
+      "default": "International Shipping"
+    },
+    {
+      "type": "text",
+      "id": "trust_1_text",
+      "label": "Badge 1 — Text",
+      "default": "Worldwide shipping — customs & duties excluded"
+    },
+    {
+      "type": "text",
+      "id": "trust_2_title",
+      "label": "Badge 2 — Title",
+      "default": "Customer Service"
+    },
+    {
+      "type": "text",
+      "id": "trust_2_text",
+      "label": "Badge 2 — Text",
+      "default": "Get in touch via WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "trust_3_title",
+      "label": "Badge 3 — Title",
+      "default": "Secure Payment"
+    },
+    {
+      "type": "text",
+      "id": "trust_3_text",
+      "label": "Badge 3 — Text",
+      "default": "Your payment information is processed securely."
+    },
+    {
+      "type": "header",
+      "content": "Accordion Content"
+    },
+    {
+      "type": "textarea",
+      "id": "accordion_technology_text",
+      "label": "Technology accordion text",
+      "default": "Engineered from aerospace-grade aluminum, the diffuser houses our proprietary porous ceramic core. This spill-proof design ensures a perfectly calibrated, continuous release of fragrance for up to 45 days, unaffected by cabin temperature fluctuations."
+    },
+    {
+      "type": "textarea",
+      "id": "accordion_shipping_text",
+      "label": "Shipping & Returns accordion text",
+      "default": "Complimentary express shipping on all orders. Each product is crafted to rigorous standards; however, if you are not entirely satisfied, we offer a 14-day return window for unused items."
+    },
+    {
+      "type": "header",
+      "content": "Related Products"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_related_products",
+      "label": "Show related products",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "related_eyebrow",
+      "label": "Related products eyebrow",
+      "default": "You May Also Like"
+    },
+    {
+      "type": "text",
+      "id": "related_title",
+      "label": "Related products heading",
+      "default": "Explore More"
+    },
+    {
+      "type": "range",
+      "id": "related_products_count",
+      "label": "Number of related products",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Template"
+    }
+  ]
+}
+{% endschema %}

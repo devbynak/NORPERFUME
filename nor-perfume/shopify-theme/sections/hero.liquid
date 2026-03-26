@@ -1,0 +1,249 @@
+<section
+  id="section-{{ section.id }}"
+  class="panel panel-hero"
+  data-section-id="{{ section.id }}"
+  data-section-type="hero"
+>
+  <div class="hero-media">
+    <div class="hero-bg-gradient"></div>
+    <div class="hero-bg-logo-tile" style="background-image: url({{ 'norwhitelogo.png' | asset_url }})" aria-hidden="true"></div>
+  </div>
+
+  <div class="hero-body">
+    <h1 class="hero-title reveal-text">
+      <span class="line-wrap"><span class="line-inner">{{ section.settings.title_line_1 }}</span></span>
+      <span class="line-wrap"><span class="line-inner"><span class="hero-ticker-wrap"><span class="hero-ticker" id="hero-ticker">Moves</span></span></span></span>
+      <span class="line-wrap"><span class="line-inner hero-you-line">You</span></span>
+    </h1>
+
+    <p class="hero-sub reveal-text">{{ section.settings.subtitle }}</p>
+
+    <div class="hero-ctas reveal-text">
+      <a href="{{ section.settings.cta_primary_link | default: '/collections/all' }}" class="cta-primary">
+        {{ section.settings.cta_primary_text }}
+      </a>
+      <a href="{{ section.settings.cta_ghost_link | default: '/pages/about' }}" class="cta-ghost">
+        {{ section.settings.cta_ghost_text }}
+      </a>
+    </div>
+  </div>
+
+  {%- comment -%} Floating ambient cards {%- endcomment -%}
+  <div class="hero-float-row">
+    <div class="float-card fc-left reveal-text" aria-hidden="true">
+      <span class="fc-label">{{ section.settings.card_left_label }}</span>
+      <p class="fc-name">{{ section.settings.card_left_value }}</p>
+      <span class="fc-notes">{{ section.settings.card_left_sub }}</span>
+    </div>
+
+    <div class="float-card fc-right reveal-text" aria-hidden="true">
+      <div class="fc-stars">
+        {%- assign star_count = section.settings.card_right_stars | times: 1 -%}
+        {%- for i in (1..star_count) -%}&#9733;{%- endfor -%}
+      </div>
+      <p class="fc-rating">{{ section.settings.card_right_value }}</p>
+      <span class="fc-notes">{{ section.settings.card_right_sub }}</span>
+    </div>
+  </div>
+
+</section>
+
+<script>
+(function() {
+  var words = ['Moves', 'Drives', 'Defines', 'Inspires', 'Follows'];
+  var el = document.getElementById('hero-ticker');
+  if (!el) return;
+
+  var front = document.createElement('span');
+  front.className = 'flip-front';
+  front.textContent = words[0];
+
+  var back = document.createElement('span');
+  back.className = 'flip-back';
+  back.textContent = words[0];
+
+  el.textContent = '';
+  el.appendChild(front);
+  el.appendChild(back);
+
+  /* Fix width to longest word so "You" never shifts */
+  var wrap = el.closest('.hero-ticker-wrap');
+  if (wrap) {
+    var measure = document.createElement('span');
+    measure.style.cssText = 'visibility:hidden;position:absolute;white-space:nowrap;font:inherit;';
+    wrap.appendChild(measure);
+    var maxW = 0;
+    for (var w = 0; w < words.length; w++) {
+      measure.textContent = words[w];
+      var mw = measure.offsetWidth;
+      if (mw > maxW) maxW = mw;
+    }
+    wrap.removeChild(measure);
+    wrap.style.width = (maxW + 24) + 'px';
+  }
+
+  var idx = 0;
+  var busy = false;
+
+  setInterval(function() {
+    if (busy) return;
+    busy = true;
+
+    var nextIdx = (idx + 1) % words.length;
+    back.textContent = words[nextIdx];
+    el.classList.add('flipping');
+
+    setTimeout(function() {
+      idx = nextIdx;
+      front.textContent = words[idx];
+      el.style.transition = 'none';
+      el.classList.remove('flipping');
+      void el.offsetWidth;
+      el.style.transition = '';
+      busy = false;
+    }, 650);
+  }, 3000);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Hero",
+  "class": "section-hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Luxury Car Fragrance"
+    },
+    {
+      "type": "text",
+      "id": "title_line_1",
+      "label": "Title — line 1",
+      "default": "Elevate Your"
+    },
+    {
+      "type": "text",
+      "id": "title_line_2",
+      "label": "Title — line 2 (italic)",
+      "default": "Journey"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle paragraph",
+      "default": "Premium fragrances engineered for the discerning driver. Long-lasting. Refined. Uniquely yours."
+    },
+    {
+      "type": "header",
+      "content": "Primary CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_text",
+      "label": "Button text",
+      "default": "Explore Collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Ghost CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_ghost_text",
+      "label": "Button text",
+      "default": "Our Craft"
+    },
+    {
+      "type": "url",
+      "id": "cta_ghost_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Left floating card"
+    },
+    {
+      "type": "text",
+      "id": "card_left_label",
+      "label": "Card label",
+      "default": "Bestseller"
+    },
+    {
+      "type": "text",
+      "id": "card_left_value",
+      "label": "Card value",
+      "default": "Noir Oud"
+    },
+    {
+      "type": "text",
+      "id": "card_left_sub",
+      "label": "Card sub-text",
+      "default": "45 days lasting"
+    },
+    {
+      "type": "header",
+      "content": "Right floating card"
+    },
+    {
+      "type": "text",
+      "id": "card_right_label",
+      "label": "Card label",
+      "default": "Customer Rating"
+    },
+    {
+      "type": "range",
+      "id": "card_right_stars",
+      "label": "Stars (1–5)",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "card_right_value",
+      "label": "Rating value",
+      "default": "4.9 / 5"
+    },
+    {
+      "type": "text",
+      "id": "card_right_sub",
+      "label": "Card sub-text",
+      "default": "2,400+ happy customers"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Hero",
+      "settings": {
+        "eyebrow": "Luxury Car Fragrance",
+        "title_line_1": "Elevate Your",
+        "title_line_2": "Journey",
+        "subtitle": "Premium fragrances engineered for the discerning driver. Long-lasting. Refined. Uniquely yours.",
+        "cta_primary_text": "Explore Collection",
+        "cta_ghost_text": "Our Craft",
+        "card_left_label": "Bestseller",
+        "card_left_value": "Noir Oud",
+        "card_left_sub": "45 days lasting",
+        "card_right_label": "Customer Rating",
+        "card_right_stars": 5,
+        "card_right_value": "4.9 / 5",
+        "card_right_sub": "2,400+ happy customers"
+      }
+    }
+  ]
+}
+{% endschema %}

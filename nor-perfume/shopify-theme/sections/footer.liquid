@@ -1,0 +1,468 @@
+{% assign whatsapp_number = section.settings.whatsapp_number | default: '919445934433' | remove: '+' | remove: ' ' | remove: '-' %}
+
+<footer class="footer">
+
+  <!-- ── Trust Strip ── -->
+  <div class="footer-trust-strip">
+    <div class="trust-strip-inner">
+      <div class="trust-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Secure Payment</span>
+      </div>
+      <div class="trust-sep"></div>
+      <div class="trust-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <span>International Shipping</span>
+      </div>
+      <div class="trust-sep"></div>
+      <div class="trust-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <span>WhatsApp Support</span>
+      </div>
+      <div class="trust-sep"></div>
+      <div class="trust-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span>100% Natural Oils</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Newsletter ── -->
+  <div class="footer-newsletter">
+    <div class="nl-inner">
+      <div class="nl-left">
+        <h2 class="nl-title">{{ section.settings.newsletter_title | default: 'Join the Inner Circle' }}</h2>
+        <span class="nl-eyebrow">Newsletter</span>
+        <img src="{{ 'norwhitelogo.png' | asset_url }}" alt="{{ shop.name }}" class="nl-logo">
+      </div>
+      <div class="nl-right">
+        <p class="nl-desc">{{ section.settings.newsletter_description | default: 'Subscribe to get notified about product launches, special offers and company news.' }}</p>
+        {% form 'customer', id: 'newsletter-form' %}
+          {%- if form.posted_successfully? -%}
+            <p class="nl-success" role="status">Thank you for subscribing.</p>
+          {%- elsif form.errors -%}
+            <p class="nl-error" role="alert">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="nl-form">
+            <label for="newsletter-email" class="visually-hidden">Email address</label>
+            <input type="email" id="newsletter-email" name="contact[email]" class="nl-input" placeholder="Your e-mail address" required autocomplete="email">
+            <button type="submit" class="nl-btn">Subscribe</button>
+          </div>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Main Footer ── -->
+  <div class="footer-main">
+    <div class="footer-main-inner">
+
+      <!-- Brand -->
+      <div class="ft-brand">
+        <a href="/" class="ft-logo">
+          <img src="{{ 'Fullnamewhite.png' | asset_url }}" alt="{{ shop.name }}" class="ft-logo-img">
+        </a>
+        <p class="ft-tagline">Luxury car fragrances crafted for those who drive with purpose.</p>
+        <div class="ft-social">
+          <a href="https://instagram.com/norperfume" class="ft-social-link" aria-label="Instagram" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
+          </a>
+          <a href="https://facebook.com/norperfume" class="ft-social-link" aria-label="Facebook" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://wa.me/{{ whatsapp_number }}" class="ft-social-link" aria-label="WhatsApp" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Information -->
+      <div class="ft-col">
+        <h5 class="ft-col-title">Information</h5>
+        <a href="/pages/faq" class="ft-link">FAQ</a>
+        <a href="/pages/contact" class="ft-link">Contact Us</a>
+        {%- if shop.policies.refund_policy != blank -%}
+          <a href="{{ shop.policies.refund_policy.url }}" class="ft-link">{{ shop.policies.refund_policy.title }}</a>
+        {%- endif -%}
+        {%- if shop.policies.shipping_policy != blank -%}
+          <a href="{{ shop.policies.shipping_policy.url }}" class="ft-link">{{ shop.policies.shipping_policy.title }}</a>
+        {%- endif -%}
+        {%- if shop.policies.privacy_policy != blank -%}
+          <a href="{{ shop.policies.privacy_policy.url }}" class="ft-link">{{ shop.policies.privacy_policy.title }}</a>
+        {%- endif -%}
+        {%- if shop.policies.terms_of_service != blank -%}
+          <a href="{{ shop.policies.terms_of_service.url }}" class="ft-link">{{ shop.policies.terms_of_service.title }}</a>
+        {%- endif -%}
+      </div>
+
+      <!-- Our Services -->
+      <div class="ft-col">
+        <h5 class="ft-col-title">Our Services</h5>
+        <a href="/pages/franchise" class="ft-link">Franchise</a>
+        <a href="/pages/private-labeling" class="ft-link">Private Labeling</a>
+        <a href="/collections/all" class="ft-link">All Products</a>
+      </div>
+
+      <!-- Contact -->
+      <div class="ft-col">
+        <h5 class="ft-col-title">Get in Touch</h5>
+        <a href="https://wa.me/{{ whatsapp_number }}" class="ft-link" target="_blank" rel="noopener">WhatsApp: +91 94459 34433</a>
+        <a href="mailto:norperfume.in@gmail.com" class="ft-link">norperfume.in@gmail.com</a>
+        <p class="ft-address">Store Locations: India</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Copyright ── -->
+  <div class="footer-copyright">
+    <div class="footer-copyright-inner">
+      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved. Crafted with intention.</p>
+    </div>
+  </div>
+
+</footer>
+
+<style>
+  .footer {
+    background: var(--c-bg, #0a0a0a);
+    color: var(--c-cream, #f5f0eb);
+    font-family: var(--sans);
+  }
+
+  /* ── Trust Strip ── */
+  .footer-trust-strip {
+    border-top: 1px solid rgba(255,255,255,.06);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    padding: 24px 2rem;
+  }
+  .trust-strip-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(245,240,235,.5);
+  }
+  .trust-item svg {
+    flex-shrink: 0;
+    opacity: .6;
+  }
+  .trust-item span {
+    font-size: .7rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .trust-sep {
+    width: 1px;
+    height: 16px;
+    background: rgba(255,255,255,.1);
+  }
+
+  @media (max-width: 768px) {
+    .footer-trust-strip { padding: 20px 16px; }
+    .trust-strip-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .trust-sep { display: none; }
+    .trust-item {
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+      justify-content: center;
+      padding: 18px 10px;
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 12px;
+      background: rgba(255,255,255,.02);
+    }
+    .trust-item span { font-size: .52rem; letter-spacing: 1.5px; }
+    .trust-item svg { width: 20px; height: 20px; }
+  }
+
+  /* ── Newsletter ── */
+  .footer-newsletter {
+    padding: 72px 2rem;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .nl-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .nl-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    color: var(--c-cream);
+    margin: 0 0 12px;
+    line-height: 1.15;
+    letter-spacing: 1px;
+  }
+  .nl-eyebrow {
+    display: block;
+    font-family: var(--sans);
+    font-size: .6rem;
+    font-weight: 500;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(245,240,235,.35);
+    margin-bottom: 0;
+  }
+  .nl-logo {
+    height: 40px;
+    width: auto;
+    display: block;
+    margin-top: 24px;
+    opacity: .45;
+  }
+  .nl-desc {
+    font-size: .82rem;
+    line-height: 1.8;
+    color: rgba(245,240,235,.4);
+    margin: 0 0 20px;
+    font-weight: 300;
+  }
+  .nl-form {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: 1px solid rgba(255,255,255,.15);
+    padding-bottom: 2px;
+    transition: border-color .3s ease;
+  }
+  .nl-form:focus-within {
+    border-color: rgba(255,255,255,.45);
+  }
+  .nl-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 12px 0;
+    font-family: var(--sans);
+    font-size: .85rem;
+    letter-spacing: .5px;
+    color: var(--c-cream);
+    outline: none;
+  }
+  .nl-input::placeholder {
+    color: rgba(245,240,235,.25);
+    font-weight: 300;
+  }
+  .nl-btn {
+    background: var(--c-cream, #f5f0eb);
+    color: var(--c-bg, #0a0a0a);
+    border: none;
+    padding: 10px 28px;
+    font-family: var(--sans);
+    font-size: .65rem;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background .25s ease, transform .25s ease;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .nl-btn:hover {
+    background: var(--c-silver, #d9d9d9);
+    transform: translateY(-1px);
+  }
+  .nl-success {
+    color: var(--c-cream);
+    font-size: .85rem;
+    margin: 0 0 16px;
+  }
+  .nl-error {
+    color: #e07070;
+    font-size: .82rem;
+    margin: 0 0 16px;
+  }
+
+  /* ── Main Footer ── */
+  .footer-main {
+    padding: 72px 2rem 48px;
+  }
+  .footer-main-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  /* Brand */
+  .ft-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .ft-logo {
+    display: inline-block;
+    text-decoration: none;
+    transition: opacity .3s ease;
+  }
+  .ft-logo:hover {
+    opacity: .8;
+  }
+  .ft-logo-img {
+    height: 22px;
+    width: auto;
+    display: block;
+  }
+  .ft-tagline {
+    font-size: .82rem;
+    color: rgba(245,240,235,.35);
+    line-height: 1.7;
+    font-weight: 300;
+    max-width: 280px;
+  }
+  .ft-social {
+    display: flex;
+    gap: 14px;
+    margin-top: 8px;
+  }
+  .ft-social-link {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(245,240,235,.5);
+    transition: all .3s ease;
+  }
+  .ft-social-link:hover {
+    color: var(--c-cream);
+    border-color: rgba(255,255,255,.3);
+    background: rgba(255,255,255,.05);
+    transform: translateY(-2px);
+  }
+
+  /* Columns */
+  .ft-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ft-col-title {
+    font-family: var(--sans);
+    font-size: .62rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--c-cream);
+    margin: 0 0 6px;
+  }
+  .ft-link {
+    font-size: .8rem;
+    color: rgba(245,240,235,.4);
+    text-decoration: none;
+    font-weight: 300;
+    transition: color .2s ease, padding-left .2s ease;
+    line-height: 1.3;
+  }
+  .ft-link:hover {
+    color: var(--c-cream);
+    padding-left: 4px;
+  }
+  .ft-address {
+    font-size: .8rem;
+    color: rgba(245,240,235,.35);
+    line-height: 1.6;
+    font-weight: 300;
+    margin: 0;
+  }
+
+  /* ── Copyright ── */
+  .footer-copyright {
+    border-top: 1px solid rgba(255,255,255,.06);
+    padding: 24px 2rem;
+  }
+  .footer-copyright-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .footer-copyright p {
+    font-size: .68rem;
+    letter-spacing: 1.5px;
+    color: rgba(245,240,235,.25);
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .footer-main-inner {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+    .ft-brand {
+      grid-column: 1 / -1;
+    }
+    .trust-strip-inner {
+      gap: 1.2rem;
+    }
+    .trust-sep { display: none; }
+  }
+  @media (max-width: 600px) {
+    .footer-main-inner {
+      grid-template-columns: 1fr;
+    }
+    .nl-inner {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .nl-right {
+      padding-top: 0;
+    }
+    .trust-strip-inner {
+      flex-direction: column;
+      gap: 14px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "section",
+  "class": "site-footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Newsletter title",
+      "default": "Join the Inner Circle"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_description",
+      "label": "Newsletter description",
+      "default": "Be the first to know about new releases, exclusive offers, and the art of luxury driving."
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_number",
+      "label": "WhatsApp number",
+      "default": "+91 94459 34433"
+    }
+  ]
+}
+{% endschema %}
